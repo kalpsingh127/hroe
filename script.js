@@ -3,17 +3,17 @@ document.getElementById('submit-action').addEventListener('click', () => {
     const doer = document.getElementById('doer').value;
     const format = document.getElementById('format').value;
 
-    fetch('/generate-question', {
+    fetch('https://your-api-url/generate-question', { // Replace with your actual API URL
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ action, doer, format })
     })
     .then(response => response.json())
     .then(data => {
-        document.getElementById('present-hindi-question').innerText = data.presentHindi;
-        document.getElementById('negative-hindi-question').innerText = data.negativeHindi;
-        document.getElementById('question-hindi-question').innerText = data.questionHindi;
-        document.getElementById('negative-question-hindi-question').innerText = data.negativeQuestionHindi;
+        document.getElementById('present-hindi-question').innerText = data.presentHindi || 'Translation not available';
+        document.getElementById('negative-hindi-question').innerText = data.negativeHindi || 'Translation not available';
+        document.getElementById('question-hindi-question').innerText = data.questionHindi || 'Translation not available';
+        document.getElementById('negative-question-hindi-question').innerText = data.negativeQuestionHindi || 'Translation not available';
     })
     .catch(error => console.error('Error:', error));
 });
@@ -24,18 +24,18 @@ document.getElementById('submit-translations').addEventListener('click', () => {
     const questionTranslation = document.getElementById('question-translation').value;
     const negativeQuestionTranslation = document.getElementById('negative-question-translation').value;
     const format = document.getElementById('format').value;
+    const action = document.getElementById('action').value;
 
-    fetch('/translate', {
+    fetch('https://your-api-url/translate', { // Replace with your actual API URL
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-            user_translation: {
-                present: presentTranslation,
-                negative: negativeTranslation,
-                question: questionTranslation,
-                negativeQuestion: negativeQuestionTranslation
-            },
-            format
+            presentTranslation,
+            negativeTranslation,
+            questionTranslation,
+            negativeQuestionTranslation,
+            format,
+            action
         })
     })
     .then(response => response.json())
